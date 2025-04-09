@@ -1,9 +1,11 @@
-package com.rpps.rppsProject.exceptions;
+package com.rpps.rppsProject.exception;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 @ControllerAdvice
@@ -35,5 +37,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleEmptyResult(EmptyResultDataAccessException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body("Nenhum resultado encontrado.");
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<String> handleValidationException(MethodArgumentNotValidException ex) {
+        StringBuilder errors = new StringBuilder("Erros de validação:\n");
+        for (FieldError error : ex.getBindingResult().getFieldErrors()) {
+            errors.append("- ").append(error.getField()).append(": ").append(error.getDefaultMessage()).append("\n");
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors.toString());
     }
 }
