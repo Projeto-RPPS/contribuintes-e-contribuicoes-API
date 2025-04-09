@@ -1,11 +1,13 @@
+version: "3.9"
+
 services:
   postgres:
     image: postgres:15-alpine
     container_name: rpps_db
     environment:
-      POSTGRES_USER: ${DB_USERNAME}  # Mapeia para DB_USERNAME do seu .env
-      POSTGRES_PASSWORD: ${DB_PASSWORD} # Mapeia para DB_PASSWORD
-      POSTGRES_DB: postgres # Nome fixo do banco (ou use uma variável se preferir)
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: postgres
     ports:
       - "5433:5432"
     volumes:
@@ -21,8 +23,8 @@ services:
     image: dpage/pgadmin4:latest
     container_name: pgadmin4
     environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL} # Do seu .env
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD} # Do seu .env
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
     ports:
       - "8081:80"
     volumes:
@@ -30,6 +32,23 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    restart: unless-stopped
+
+  api:
+    build:
+      context: .  # Onde está seu Dockerfile e projeto
+    container_name: rpps_api
+    ports:
+      - "8084:8084"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/postgres
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      APP_NAME: ${APP_NAME}
+      SERVER_PORT: ${SERVER_PORT}
     restart: unless-stopped
 
 volumes:
