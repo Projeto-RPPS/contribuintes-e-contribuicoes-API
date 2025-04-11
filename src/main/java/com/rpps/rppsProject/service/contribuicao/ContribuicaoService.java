@@ -73,9 +73,13 @@ public class ContribuicaoService {
     }
 
     public List<ContribuicaoDTO> listarContribuicoesPorCPF(String cpfContribuinte) {
-        return contribuicaoRepository.findAllContribuicaoPorCPF(cpfContribuinte).stream()
+        List<ContribuicaoDTO> listaContribuicoes = contribuicaoRepository.findAllContribuicaoPorCPF(cpfContribuinte).stream()
                 .map(contribuicao -> new ContribuicaoDTO(contribuicao.getIdContribuicao(), contribuicao.getIdContribuinte(),
                         contribuicao.getDataContribuicao(), contribuicao.getValorContribuicao(),
                         contribuicao.getDataReferente(), contribuicao.getIdSalarioMinimo())).toList();
+        if (listaContribuicoes.isEmpty()){
+            throw new IllegalArgumentException("Não encontrado contribuições feitas com esse CPF");
+        }
+        return listaContribuicoes;
     }
 }

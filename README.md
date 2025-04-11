@@ -1,19 +1,18 @@
+
 # RPPS API
 
-Esta é a API REST desenvolvida para o sistema de gerenciamento de contribuintes de um regime próprio de previdência social (RPPS). Ela permite o cadastro, atualização e consulta de contribuintes, categorias, contribuições, parentescos, salários mínimos e estrutura genealógica (filiações), além da documentação acessível via Swagger.
+API REST para o gerenciamento de contribuintes de um Regime Próprio de Previdência Social (RPPS). O sistema permite cadastro, atualização, consulta e controle de contribuintes, contribuições, categorias, vínculos familiares e histórico de salário mínimo.
 
 ---
 
-## 🔧 Tecnologias Utilizadas
+## 🚀 Tecnologias Utilizadas
 
 - Java 17+
-- Spring Boot 3+
+- Spring Boot 3.4.4
 - PostgreSQL
-- JDBC
-- Flyway
-- Swagger (Springdoc)
+- JDBC + Flyway
+- Swagger (Springdoc OpenAPI)
 - Docker e Docker Compose
-- Postman (para testes)
 
 ---
 
@@ -21,92 +20,84 @@ Esta é a API REST desenvolvida para o sistema de gerenciamento de contribuintes
 
 ```
 rpps-project/
-├── .env                     # Arquivo de variáveis de ambiente
-├── docker-compose.yml       # Arquivo de configuração do Docker
+├── .env                     # Variáveis de ambiente usadas pelos containers
+├── Dockerfile               # Gera a imagem da API
+├── docker-compose.yml       # Orquestra banco de dados, pgAdmin e API
 ├── README.md
-├── rppsProject/             # Projeto Java (src/main/java)
+├── rppsProject/             # Código fonte da aplicação (Spring Boot)
 │   └── ...
 ```
 
 ---
 
-## 🚀 Como Executar o Projeto
-
-### 1. Pré-requisitos
-
-- Docker instalado
-- Java 17+ e Maven (caso deseje rodar localmente sem container)
-
----
-
-### 2. Configuração do Ambiente
-
-Crie um arquivo `.env` na raiz do projeto com as variáveis:
+## ⚙️ Variáveis de Ambiente (.env)
 
 ```env
-DB_URL=jdbc:postgresql://localhost:5433/postgres
-DB_USERNAME=seu_usuario
-DB_PASSWORD=sua_senha
+DB_URL=jdbc:postgresql://postgres:5432/rppsdb
+DB_USERNAME=myuser
+DB_PASSWORD=mypassword
+DB_NAME=rppsdb
+APP_NAME=rppsProject
 
-PGADMIN_DEFAULT_EMAIL=admin@rpps.com
-PGADMIN_DEFAULT_PASSWORD=admin123
+PGADMIN_DEFAULT_EMAIL=admin@example.com
+PGADMIN_DEFAULT_PASSWORD=adminpass
+
+SERVER_PORT=8084
 ```
 
 ---
 
-### 3. Subir o Banco de Dados + PGAdmin
+## 🐳 Como Executar via Docker
 
-Na raiz do projeto:
+### 1. Subir os serviços
 
 ```bash
-docker-compose up -d
+docker-compose up -d --build
 ```
 
-Containers gerados:
+**Serviços incluídos**:
 
-- `rpps_db` (PostgreSQL - porta 5433)
-- `pgadmin4` (interface web - http://localhost:8081)
-
----
-
-### 4. Conectar no PGAdmin
-
-- Acesse `http://localhost:8081`
-- Login: conforme `.env`
-- Novo servidor:
-  - Host: `rpps_db`
-  - Porta: `5432`
-  - Usuário/senha do `.env`
+- `rpps_db` — PostgreSQL (porta `5432`)
+- `pgadmin4` — Interface para gerenciar o banco (`http://localhost:8081`)
+- `rpps_api` — API do projeto rodando em `http://localhost:8084`
 
 ---
 
-### 5. Rodar a API
+### 2. Acessar Swagger
 
-Com Docker pronto e banco no ar:
+Com a aplicação rodando, acesse:
 
-```bash
-./mvnw spring-boot:run
+```
+http://localhost:8084/swagger-ui.html
 ```
 
-Ou rode pela IDE (IntelliJ, VSCode...)
+---
+
+### 3. Login no PGAdmin
+
+- **URL**: http://localhost:8081
+- **Email**: admin@example.com
+- **Senha**: adminpass
+
+Servidor:
+
+- **Host**: `rpps_db`
+- **Porta**: `5432`
+- **Usuário**: `myuser`
+- **Senha**: `mypassword`
 
 ---
 
-## 📄 Documentação
+## 🧪 Testes e Validações
 
-Acesse a doc Swagger:
-
-[http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
-
----
-
-## 🧪 Testes
-
-- Postman ou Swagger
-- Endpoints já validados com `@Valid` e `ResponseEntity`
+- Testes podem ser realizados via Postman ou diretamente pelo Swagger.
+- As validações de entrada usam `@Valid` com mensagens personalizadas.
+- Retorno de erros é tratado por um `@ControllerAdvice`.
 
 ---
 
 ## 👤 Autor
 
-João Pedro Varela Borges — projeto acadêmico focado em sistemas previdenciários com Java e PostgreSQL.
+João Pedro Varela Borges — Projeto acadêmico utilizando Spring Boot e PostgreSQL com foco em sistemas previdenciários municipais.
+
+---
