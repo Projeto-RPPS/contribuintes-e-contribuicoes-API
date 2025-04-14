@@ -16,20 +16,6 @@ API REST para o gerenciamento de contribuintes de um Regime Próprio de Previdê
 
 ---
 
-## 📁 Estrutura do Projeto
-
-```
-rpps-project/
-├── .env                     # Variáveis de ambiente usadas pelos containers
-├── Dockerfile               # Gera a imagem da API
-├── docker-compose.yml       # Orquestra banco de dados, pgAdmin e API
-├── README.md
-├── rppsProject/             # Código fonte da aplicação (Spring Boot)
-│   └── ...
-```
-
----
-
 ## ⚙️ Variáveis de Ambiente (.env)
 
 ```env
