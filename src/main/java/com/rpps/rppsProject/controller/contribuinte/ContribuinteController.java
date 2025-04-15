@@ -2,6 +2,7 @@ package com.rpps.rppsProject.controller.contribuinte;
 
 import com.rpps.rppsProject.dto.contribuinte.ContribuinteDTO;
 import com.rpps.rppsProject.dto.contribuinte.DadosCadastroDTO;
+import com.rpps.rppsProject.model.contribuinte.Contribuinte;
 import com.rpps.rppsProject.service.contribuinte.ContribuinteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,14 +24,14 @@ public class ContribuinteController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ContribuinteDTO> buscarPorId(@PathVariable Long id) {
-        ContribuinteDTO dto = contribuinteService.buscarContribuintePorId(id);
-        return ResponseEntity.ok(dto);
+    public ResponseEntity<Contribuinte> buscarPorId(@PathVariable Long id) {
+        Contribuinte contribuinte = contribuinteService.buscarContribuintePorId(id);
+        return ResponseEntity.ok(contribuinte);
     }
 
     @GetMapping
-    public ResponseEntity<List<ContribuinteDTO>> listarTodos() {
-        List<ContribuinteDTO> lista = contribuinteService.listarContribuintes();
+    public ResponseEntity<List<Contribuinte>> listarTodos() {
+        List<Contribuinte> lista = contribuinteService.listarContribuintes();
         return ResponseEntity.ok(lista);
     }
 

@@ -24,37 +24,20 @@ public class HistoricoSalarioMinimoService {
         return repository.insert(salario);
     }
 
-    public Long atualizarHistorico(HistoricoSalarioMinimoDTO dto) {
-        HistoricoSalarioMinimo salario = new HistoricoSalarioMinimo();
-        salario.setIdSalarioMinimo(dto.idSalarioMinimo());
-        salario.setValor(dto.valorSalarioMinimo());
-        salario.setDataInicioVigencia(dto.dataInicioVigencia());
-        salario.setDataFimVigencia(dto.dataFinalVigencia());
-        return repository.update(salario);
+    public Long atualizarHistorico(HistoricoSalarioMinimo historicoSalarioMinimo) {
+        return repository.update(historicoSalarioMinimo);
     }
 
     public void excluirHistorico(Long id) {
         repository.delete(id);
     }
 
-    public HistoricoSalarioMinimoDTO buscarPorId(Long id) {
+    public HistoricoSalarioMinimo buscarPorId(Long id) {
         Optional<HistoricoSalarioMinimo> historico = repository.findById(id);
-        return historico.map(h -> new HistoricoSalarioMinimoDTO(
-                h.getIdSalarioMinimo(),
-                h.getValor(),
-                h.getDataInicioVigencia(),
-                h.getDataFimVigencia()
-        )).orElseThrow(() -> new RuntimeException("Salário mínimo não encontrado"));
+        return historico.orElseThrow(() -> new RuntimeException("Salário mínimo não encontrado"));
     }
 
-    public List<HistoricoSalarioMinimoDTO> listarTodos() {
-        return repository.findAll().stream()
-                .map(h -> new HistoricoSalarioMinimoDTO(
-                        h.getIdSalarioMinimo(),
-                        h.getValor(),
-                        h.getDataInicioVigencia(),
-                        h.getDataFimVigencia()
-                ))
-                .collect(Collectors.toList());
+    public List<HistoricoSalarioMinimo> listarTodos() {
+        return repository.findAll();
     }
 }

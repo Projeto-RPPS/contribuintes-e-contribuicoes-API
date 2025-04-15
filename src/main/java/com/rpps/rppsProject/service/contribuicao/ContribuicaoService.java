@@ -38,7 +38,7 @@ public class ContribuicaoService {
                 BigDecimal valorContribuicao = calcularValorContribuicao(dados.percentualContribuicao(), dados.valorSalario());
 
                 contribuicao.setIdContribuinte(contribuicaoDTO.idContribuinte());
-                contribuicao.setDataReferente(contribuicaoDTO.dataReferencia());
+                contribuicao.setDataReferencia(contribuicaoDTO.dataReferencia());
                 contribuicao.setIdSalarioMinimo(dados.idSalario());
                 contribuicao.setValorContribuicao(valorContribuicao);
 
@@ -53,30 +53,22 @@ public class ContribuicaoService {
         contribuicaoRepository.delete(idContribuicao);
     }
 
-    public ContribuicaoDTO buscarPorId(Long idContribuicao) {
+    public Contribuicao buscarPorId(Long idContribuicao) {
         Contribuicao contribuicao = contribuicaoRepository.findById(idContribuicao)
                 .orElseThrow(() -> new IllegalArgumentException("Contribuição não encontrada para o ID: " + idContribuicao));
 
-        return new ContribuicaoDTO(contribuicao.getIdContribuicao(), contribuicao.getIdContribuinte(),
-                contribuicao.getDataContribuicao(), contribuicao.getValorContribuicao(),
-                contribuicao.getDataReferente(), contribuicao.getIdSalarioMinimo());
+        return contribuicao;
     }
 
 
-    public List<ContribuicaoDTO> listarContribuicoes() {
+    public List<Contribuicao> listarContribuicoes() {
 
-        return contribuicaoRepository.findAll().stream()
-                .map(contribuicao -> new ContribuicaoDTO(contribuicao.getIdContribuicao(), contribuicao.getIdContribuinte(),
-                        contribuicao.getDataContribuicao(), contribuicao.getValorContribuicao(),
-                        contribuicao.getDataReferente(), contribuicao.getIdSalarioMinimo())).toList();
+        return contribuicaoRepository.findAll();
 
     }
 
-    public List<ContribuicaoDTO> listarContribuicoesPorCPF(String cpfContribuinte) {
-        List<ContribuicaoDTO> listaContribuicoes = contribuicaoRepository.findAllContribuicaoPorCPF(cpfContribuinte).stream()
-                .map(contribuicao -> new ContribuicaoDTO(contribuicao.getIdContribuicao(), contribuicao.getIdContribuinte(),
-                        contribuicao.getDataContribuicao(), contribuicao.getValorContribuicao(),
-                        contribuicao.getDataReferente(), contribuicao.getIdSalarioMinimo())).toList();
+    public List<Contribuicao> listarContribuicoesPorCPF(String cpfContribuinte) {
+        List<Contribuicao> listaContribuicoes = contribuicaoRepository.findAllContribuicaoPorCPF(cpfContribuinte);
         if (listaContribuicoes.isEmpty()){
             throw new IllegalArgumentException("Não encontrado contribuições feitas com esse CPF");
         }

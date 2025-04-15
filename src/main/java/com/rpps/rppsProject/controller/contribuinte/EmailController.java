@@ -1,6 +1,7 @@
 package com.rpps.rppsProject.controller.contribuinte;
 
 import com.rpps.rppsProject.dto.contribuinte.EmailDTO;
+import com.rpps.rppsProject.model.contribuinte.Email;
 import com.rpps.rppsProject.service.contribuinte.EmailService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,8 @@ public class EmailController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> atualizar(@RequestBody @Valid EmailDTO dto) {
-        emailService.atualizarEmail(dto);
+    public ResponseEntity<Void> atualizar(@RequestBody @Valid Email email) {
+        emailService.atualizarEmail(email);
         return ResponseEntity.ok().build();
     }
 
@@ -35,13 +36,13 @@ public class EmailController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EmailDTO> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<Email> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(emailService.buscarPorId(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<EmailDTO>> listarTodos() {
-        List<EmailDTO> emails = emailService.listarTodos();
+    public ResponseEntity<List<Email>> listarTodos() {
+        List<Email> emails = emailService.listarTodos();
         return ResponseEntity.ok(emails);
     }
 }

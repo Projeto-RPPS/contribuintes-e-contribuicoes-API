@@ -4,8 +4,7 @@ import com.rpps.rppsProject.model.contribuinte.Telefone;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public record TelefoneDTO(Long idTelefone,
-                          @NotNull(message = "Id contribuinte não pode ser nulo")
+public record TelefoneDTO(@NotNull(message = "Id contribuinte não pode ser nulo")
                           Long idContribuinte,
                           @NotBlank(message = "Numero de telefone não pode estar vazio")
                           String numeroTelefone,
@@ -17,7 +16,6 @@ public record TelefoneDTO(Long idTelefone,
         telefone.setTipoTelefone(telefoneDTO.tipoTelefone());
         telefone.setNumero(telefoneDTO.numeroTelefone());
         telefone.setIdContribuinte(telefoneDTO.idContribuinte());
-        telefone.setIdTelefone(telefoneDTO.idTelefone());
 
         return telefone;
     }

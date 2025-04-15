@@ -21,16 +21,10 @@ public class CategoriaService {
         categoriaRepository.insert(categoria);
     }
 
-    public void atualizarCategoria(CategoriaDTO categoriaDTO) {
-        if (categoriaRepository.findById(categoriaDTO.idCategoria()).isEmpty()) {
-            throw new RuntimeException("Categoria não encontrada para o ID: " + categoriaDTO.idCategoria());
+    public void atualizarCategoria(Categoria categoria) {
+        if (categoriaRepository.findById(categoria.getIdCategoria()).isEmpty()) {
+            throw new RuntimeException("Categoria não encontrada para o ID");
         }
-        Categoria categoria = new Categoria();
-
-        categoria.setIdCategoria(categoriaDTO.idCategoria());
-        categoria.setNomeCategoria(categoriaDTO.nomeCategoria());
-        categoria.setPercentualContribuicao(categoriaDTO.percentualContribuicao());
-
         categoriaRepository.update(categoria);
     }
 
@@ -38,16 +32,12 @@ public class CategoriaService {
         categoriaRepository.delete(id);
     }
 
-    public CategoriaDTO buscarPorId(Long id) {
-        return categoriaRepository.findById(id)
-                .map(categoria -> new CategoriaDTO(categoria.getIdCategoria(), categoria.getNomeCategoria(), categoria.getPercentualContribuicao()))
-                .orElseThrow(() -> new RuntimeException("Categoria não encontrada com o id: " + id));
+    public Categoria buscarPorId(Long id) {
+        return categoriaRepository.findById(id).orElseThrow(() -> new RuntimeException("Categoria não encontrada com o id: " + id));
     }
 
-    public List<CategoriaDTO> buscarTodas() {
+    public List<Categoria> buscarTodas() {
         List<Categoria> categorias = categoriaRepository.findAll();
-        return categorias.stream()
-                .map(categoria -> new CategoriaDTO(categoria.getIdCategoria(), categoria.getNomeCategoria(), categoria.getPercentualContribuicao()))
-                .toList();
+        return categorias;
     }
 }

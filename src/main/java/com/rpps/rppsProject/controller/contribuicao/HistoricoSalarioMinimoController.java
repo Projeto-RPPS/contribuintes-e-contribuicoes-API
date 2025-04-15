@@ -1,6 +1,7 @@
 package com.rpps.rppsProject.controller.contribuicao;
 
 import com.rpps.rppsProject.dto.contribuicao.HistoricoSalarioMinimoDTO;
+import com.rpps.rppsProject.model.contribuicao.HistoricoSalarioMinimo;
 import com.rpps.rppsProject.service.contribuicao.HistoricoSalarioMinimoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,8 @@ public class HistoricoSalarioMinimoController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> atualizar(@RequestBody @Valid HistoricoSalarioMinimoDTO dto) {
-        service.atualizarHistorico(dto);
+    public ResponseEntity<Void> atualizar(@RequestBody @Valid HistoricoSalarioMinimo historicoSalarioMinimo) {
+        service.atualizarHistorico(historicoSalarioMinimo);
         return ResponseEntity.ok().build();
     }
 
@@ -35,13 +36,13 @@ public class HistoricoSalarioMinimoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<HistoricoSalarioMinimoDTO> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<HistoricoSalarioMinimo> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(service.buscarPorId(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<HistoricoSalarioMinimoDTO>> listarTodos() {
-        List<HistoricoSalarioMinimoDTO> lista = service.listarTodos();
+    public ResponseEntity<List<HistoricoSalarioMinimo>> listarTodos() {
+        List<HistoricoSalarioMinimo> lista = service.listarTodos();
         return ResponseEntity.ok(lista);
     }
 }

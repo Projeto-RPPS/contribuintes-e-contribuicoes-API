@@ -35,6 +35,12 @@ SERVER_PORT=8084
 
 ## 🐳 Como Executar via Docker
 
+### 0. Criar rede para utilizar o docker-compose
+
+```bash
+ docker network create shared_network
+```
+
 ### 1. Subir os serviços
 
 ```bash

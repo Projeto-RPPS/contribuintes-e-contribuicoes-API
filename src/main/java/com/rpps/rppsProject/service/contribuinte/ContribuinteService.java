@@ -73,21 +73,13 @@ public class ContribuinteService {
         });
     }
 
-    public ContribuinteDTO buscarContribuintePorId(Long id) {
+    public Contribuinte buscarContribuintePorId(Long id) {
         return contribuinteRepository.findById(id)
-                .map(contribuinte -> new ContribuinteDTO(
-                        contribuinte.getIdContribuinte(),
-                        contribuinte.getNomeCivil(), contribuinte.getNomeSocial(),
-                        contribuinte.getCpf(), contribuinte.getIsAtivo(), contribuinte.getIdCategoria()))
                 .orElseThrow(() -> new RuntimeException("Contribuinte não encontrado com ID: " + id));
     }
 
-    public List<ContribuinteDTO> listarContribuintes() {
-        return contribuinteRepository.findAll().stream()
-                .map(contribuinte -> new ContribuinteDTO(
-                        contribuinte.getIdContribuinte(),
-                        contribuinte.getNomeCivil(), contribuinte.getNomeSocial(),
-                        contribuinte.getCpf(), contribuinte.getIsAtivo(), contribuinte.getIdCategoria())).toList();
+    public List<Contribuinte> listarContribuintes() {
+        return contribuinteRepository.findAll();
     }
 
     public void inativarContribuinte(Long id) {

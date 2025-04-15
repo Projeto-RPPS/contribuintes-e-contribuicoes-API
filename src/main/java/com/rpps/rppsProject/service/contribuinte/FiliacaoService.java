@@ -24,13 +24,7 @@ public class FiliacaoService {
         return filiacaoRepository.insert(filiacao);
     }
 
-    public Long atualizarFiliacao(FiliacaoDTO dto) {
-        Filiacao filiacao = new Filiacao();
-        filiacao.setIdFiliacao(dto.idFiliacao());
-        filiacao.setIdContribuinte(dto.idContribuinte());
-        filiacao.setIdTipoParentesco(dto.idTipoParentesco());
-        filiacao.setIdParente(dto.idParente());
-
+    public Long atualizarFiliacao(Filiacao filiacao) {
         return filiacaoRepository.update(filiacao);
     }
 
@@ -38,16 +32,13 @@ public class FiliacaoService {
         filiacaoRepository.delete(idFiliacao);
     }
 
-    public FiliacaoDTO buscarPorId(Long idFiliacao) {
+    public Filiacao buscarPorId(Long idFiliacao) {
         return filiacaoRepository.findById(idFiliacao)
-                .map(filiacao -> new FiliacaoDTO(filiacao.getIdFiliacao(), filiacao.getIdContribuinte()
-                ,filiacao.getIdTipoParentesco(), filiacao.getIdParente()))
                 .orElseThrow(() -> new RuntimeException("Filiação não encontrada com ID: " + idFiliacao));
     }
 
-    public List<FiliacaoDTO> listarTodas() {
-        return filiacaoRepository.findAll().stream().map(filiacao -> new FiliacaoDTO(filiacao.getIdFiliacao(), filiacao.getIdContribuinte()
-                ,filiacao.getIdTipoParentesco(), filiacao.getIdParente())).toList();
+    public List<Filiacao> listarTodas() {
+        return filiacaoRepository.findAll();
     }
 
     public List<DadosGenealogicosDTO> obterArvoreGenealogica(Long idContribuinte) {

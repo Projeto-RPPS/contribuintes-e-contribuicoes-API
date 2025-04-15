@@ -21,33 +21,24 @@ public class TipoParentescoService {
         repository.insert(tipo);
     }
 
-    public void atualizarTipoParentesco(TipoParentescoDTO dto) {
-        TipoParentesco tipo = new TipoParentesco();
-        tipo.setIdTipoParentesco(dto.idTipoParentesco());
-        tipo.setDescricaoParentesco(dto.descricaoTipoParentesco());
-        repository.update(tipo);
+    public void atualizarTipoParentesco(TipoParentesco tipoParentesco) {
+        repository.update(tipoParentesco);
     }
 
     public void deletarTipoParentesco(Long id) {
         repository.delete(id);
     }
 
-    public TipoParentescoDTO buscarPorId(Long id) {
+    public TipoParentesco buscarPorId(Long id) {
         Optional<TipoParentesco> tipoOpt = repository.findById(id);
 
-        return tipoOpt.map(tipo -> new TipoParentescoDTO(
-                tipo.getIdTipoParentesco(),
-                tipo.getDescricaoParentesco()
-        )).orElseThrow(() -> new RuntimeException("Tipo de Parentesco não encontrado para o ID " + id));
+        return tipoOpt
+                .orElseThrow(() -> new RuntimeException("Tipo de Parentesco não encontrado para o ID " + id));
     }
 
-    public List<TipoParentescoDTO> listarTodos() {
+    public List<TipoParentesco> listarTodos() {
         List<TipoParentesco> tipos = repository.findAll();
 
-        return tipos.stream()
-                .map(tipo -> new TipoParentescoDTO(
-                        tipo.getIdTipoParentesco(),
-                        tipo.getDescricaoParentesco()))
-                .toList();
+        return tipos;
     }
 }

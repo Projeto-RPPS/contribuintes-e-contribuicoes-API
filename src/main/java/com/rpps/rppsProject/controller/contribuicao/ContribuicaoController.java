@@ -1,6 +1,7 @@
 package com.rpps.rppsProject.controller.contribuicao;
 
 import com.rpps.rppsProject.dto.contribuicao.ContribuicaoDTO;
+import com.rpps.rppsProject.model.contribuicao.Contribuicao;
 import com.rpps.rppsProject.service.contribuicao.ContribuicaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,20 +29,20 @@ public class ContribuicaoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ContribuicaoDTO> buscarPorId(@PathVariable Long id) {
-        ContribuicaoDTO dto = contribuicaoService.buscarPorId(id);
-        return ResponseEntity.ok(dto);
+    public ResponseEntity<Contribuicao> buscarPorId(@PathVariable Long id) {
+        Contribuicao contribuicao = contribuicaoService.buscarPorId(id);
+        return ResponseEntity.ok(contribuicao);
     }
 
     @GetMapping
-    public ResponseEntity<List<ContribuicaoDTO>> listarTodas() {
-        List<ContribuicaoDTO> lista = contribuicaoService.listarContribuicoes();
+    public ResponseEntity<List<Contribuicao>> listarTodas() {
+        List<Contribuicao> lista = contribuicaoService.listarContribuicoes();
         return ResponseEntity.ok(lista);
     }
 
     @GetMapping("/cpf/{cpfContribuinte}")
-    public ResponseEntity<List<ContribuicaoDTO>> listarPeloCPF(@PathVariable String cpfContribuinte) {
-        List<ContribuicaoDTO> listaContribuicoes = contribuicaoService.listarContribuicoesPorCPF(cpfContribuinte);
+    public ResponseEntity<List<Contribuicao>> listarPeloCPF(@PathVariable String cpfContribuinte) {
+        List<Contribuicao> listaContribuicoes = contribuicaoService.listarContribuicoesPorCPF(cpfContribuinte);
         return ResponseEntity.ok(listaContribuicoes);
     }
 }

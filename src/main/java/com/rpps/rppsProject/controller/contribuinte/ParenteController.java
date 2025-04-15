@@ -1,6 +1,7 @@
 package com.rpps.rppsProject.controller.contribuinte;
 
 import com.rpps.rppsProject.dto.contribuinte.ParenteDTO;
+import com.rpps.rppsProject.model.contribuinte.Parente;
 import com.rpps.rppsProject.service.contribuinte.ParenteService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,8 @@ public class ParenteController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> atualizar(@RequestBody @Valid ParenteDTO parenteDTO) {
-        parenteService.atualizarParente(parenteDTO);
+    public ResponseEntity<Void> atualizar(@RequestBody @Valid Parente parente) {
+        parenteService.atualizarParente(parente);
         return ResponseEntity.ok().build();
     }
 
@@ -35,12 +36,12 @@ public class ParenteController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ParenteDTO> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<Parente> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(parenteService.buscarPorId(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<ParenteDTO>> listar() {
+    public ResponseEntity<List<Parente>> listar() {
         return ResponseEntity.ok(parenteService.listarTodos());
     }
 }

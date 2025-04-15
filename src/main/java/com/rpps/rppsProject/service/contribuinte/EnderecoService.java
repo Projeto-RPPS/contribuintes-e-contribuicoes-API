@@ -19,8 +19,7 @@ public class EnderecoService {
         enderecoRepository.insert(endereco);
     }
 
-    public void atualizarEndereco(EnderecoDTO dto) {
-        Endereco endereco = EnderecoDTO.mapearParaEndereco(dto);
+    public void atualizarEndereco(Endereco endereco) {
         enderecoRepository.update(endereco);
     }
 
@@ -28,26 +27,12 @@ public class EnderecoService {
         enderecoRepository.delete(idEndereco);
     }
 
-    public EnderecoDTO buscarPorId(Long idEndereco) {
+    public Endereco buscarPorId(Long idEndereco) {
         return enderecoRepository.findById(idEndereco)
-                .map(endereco -> new EnderecoDTO(
-                        endereco.getIdEndereco(),
-                        endereco.getIdContribuinte(),
-                        endereco.getCep(),
-                        endereco.getNumero(),
-                        endereco.getEstado()
-                )).orElseThrow(() -> new RuntimeException("Endereço não encontrado"));
+                .orElseThrow(() -> new RuntimeException("Endereço não encontrado"));
     }
 
-    public List<EnderecoDTO> listarTodos() {
-        return enderecoRepository.findAll().stream()
-                .map(endereco -> new EnderecoDTO(
-                        endereco.getIdEndereco(),
-                        endereco.getIdContribuinte(),
-                        endereco.getCep(),
-                        endereco.getNumero(),
-                        endereco.getEstado()
-                ))
-                .toList();
+    public List<Endereco> listarTodos() {
+        return enderecoRepository.findAll();
     }
 }

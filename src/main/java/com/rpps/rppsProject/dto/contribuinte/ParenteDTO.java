@@ -5,8 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-public record ParenteDTO (Long idParente,
-                         @NotBlank(message = "Nome parente não pode ser branco")
+public record ParenteDTO (@NotBlank(message = "Nome parente não pode ser branco")
                          String nomeParente,
                           @NotBlank(message = "O CPF não pode estar vazio")
                           @Size(min = 11, max = 11, message = "O CPF deve ter exatamente 11 dígitos")
@@ -16,7 +15,6 @@ public record ParenteDTO (Long idParente,
         Parente parente = new Parente();
 
         parente.setCpfParente(parenteDTO.cpfParente());
-        parente.setIdParente(parenteDTO.idParente());
         parente.setNomeParente(parenteDTO.nomeParente());
 
         return parente;

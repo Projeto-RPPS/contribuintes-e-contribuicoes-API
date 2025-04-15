@@ -23,11 +23,7 @@ public class ParenteService {
         return repository.insert(parente);
     }
 
-    public Long atualizarParente(ParenteDTO dto) {
-        Parente parente = new Parente();
-        parente.setIdParente(dto.idParente());
-        parente.setNomeParente(dto.nomeParente());
-        parente.setCpfParente(dto.cpfParente());
+    public Long atualizarParente(Parente parente) {
         return repository.update(parente);
     }
 
@@ -35,15 +31,13 @@ public class ParenteService {
         repository.delete(id);
     }
 
-    public ParenteDTO buscarPorId(Long id) {
+    public Parente buscarPorId(Long id) {
         Optional<Parente> parente = repository.findById(id);
-        return parente.map(p -> new ParenteDTO(p.getIdParente(), p.getNomeParente(), p.getCpfParente()))
+        return parente
                 .orElseThrow(() -> new RuntimeException("Parente não encontrado"));
     }
 
-    public List<ParenteDTO> listarTodos() {
-        return repository.findAll().stream()
-                .map(p -> new ParenteDTO(p.getIdParente(), p.getNomeParente(), p.getCpfParente()))
-                .collect(Collectors.toList());
+    public List<Parente> listarTodos() {
+        return repository.findAll();
     }
 }

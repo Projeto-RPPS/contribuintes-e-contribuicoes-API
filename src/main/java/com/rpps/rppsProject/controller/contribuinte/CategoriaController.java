@@ -1,5 +1,6 @@
 package com.rpps.rppsProject.controller.contribuinte;
 
+import com.rpps.rppsProject.model.contribuinte.Categoria;
 import com.rpps.rppsProject.service.contribuinte.CategoriaService;
 import com.rpps.rppsProject.dto.contribuinte.CategoriaDTO;
 import jakarta.validation.Valid;
@@ -23,8 +24,8 @@ public class CategoriaController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> atualizar(@RequestBody @Valid CategoriaDTO dto) {
-        categoriaService.atualizarCategoria(dto);
+    public ResponseEntity<Void> atualizar(@RequestBody @Valid Categoria categoria) {
+        categoriaService.atualizarCategoria(categoria);
         return ResponseEntity.ok().build();
     }
 
@@ -35,13 +36,13 @@ public class CategoriaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CategoriaDTO> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<Categoria> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(categoriaService.buscarPorId(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<CategoriaDTO>> listarTodas() {
-        List<CategoriaDTO> categorias = categoriaService.buscarTodas();
+    public ResponseEntity<List<Categoria>> listarTodas() {
+        List<Categoria> categorias = categoriaService.buscarTodas();
         return ResponseEntity.ok(categorias);
     }
 }

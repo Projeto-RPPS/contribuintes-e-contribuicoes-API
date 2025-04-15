@@ -7,7 +7,6 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record ContribuinteDTO(
-        Long idContribuinte,
         @NotBlank(message = "O nome civil não pode estar vazio")
         String nomeCivil,
         String nomeSocial,
@@ -22,7 +21,6 @@ public record ContribuinteDTO(
         public static Contribuinte mapearParaContribuinte(ContribuinteDTO dto) {
                 Contribuinte contribuinte = new Contribuinte();
 
-                contribuinte.setIdContribuinte(dto.idContribuinte());
                 contribuinte.setNomeCivil(dto.nomeCivil());
                 contribuinte.setNomeSocial(dto.nomeSocial());
                 contribuinte.setCpf(dto.cpf());

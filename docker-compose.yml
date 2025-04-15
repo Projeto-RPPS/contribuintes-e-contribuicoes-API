@@ -3,7 +3,7 @@ version: "3.9"
 services:
   postgres:
     image: postgres:15-alpine
-    container_name: rpps_db
+    container_name: rpps-db
     environment:
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
@@ -18,6 +18,8 @@ services:
       timeout: 5s
       retries: 10
     restart: unless-stopped
+    networks:
+      - shared_network
 
   pgadmin:
     image: dpage/pgadmin4:latest
@@ -33,11 +35,13 @@ services:
       postgres:
         condition: service_healthy
     restart: unless-stopped
+    networks:
+      - shared_network
 
   api:
     build:
       context: .  # Onde está seu Dockerfile e projeto
-    container_name: rpps_api
+    container_name: rpps-api
     ports:
       - "8084:8084"
     depends_on:
@@ -50,6 +54,12 @@ services:
       APP_NAME: ${APP_NAME}
       SERVER_PORT: ${SERVER_PORT}
     restart: unless-stopped
+    networks:
+      - shared_network
+
+networks:
+  shared_network:
+    external: true
 
 volumes:
   postgres_data:

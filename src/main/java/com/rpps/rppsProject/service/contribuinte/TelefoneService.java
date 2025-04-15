@@ -19,8 +19,7 @@ public class TelefoneService {
         telefoneRepository.insert(telefone);
     }
 
-    public void atualizarTelefone(TelefoneDTO dto) {
-        Telefone telefone = TelefoneDTO.mapearParaTelefone(dto);
+    public void atualizarTelefone(Telefone telefone) {
         telefoneRepository.update(telefone);
     }
 
@@ -28,25 +27,13 @@ public class TelefoneService {
         telefoneRepository.delete(idTelefone);
     }
 
-    public TelefoneDTO buscarPorId(Long idTelefone) {
+    public Telefone buscarPorId(Long idTelefone) {
         return telefoneRepository.findById(idTelefone)
-                .map(telefone -> new TelefoneDTO(
-                telefone.getIdTelefone(),
-                telefone.getIdContribuinte(),
-                telefone.getNumero(),
-                telefone.getTipoTelefone()))
                 .orElseThrow(() -> new RuntimeException("Telefone não encontrado"));
     }
 
-    public List<TelefoneDTO> listarTodos() {
-        return telefoneRepository.findAll()
-                .stream()
-                .map(telefone -> new TelefoneDTO(
-                        telefone.getIdTelefone(),
-                        telefone.getIdContribuinte(),
-                        telefone.getNumero(),
-                        telefone.getTipoTelefone()))
-                .toList();
+    public List<Telefone> listarTodos() {
+        return telefoneRepository.findAll();
     }
 
 }

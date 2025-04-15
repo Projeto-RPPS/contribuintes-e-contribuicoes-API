@@ -2,6 +2,7 @@ package com.rpps.rppsProject.controller.contribuinte;
 
 import com.rpps.rppsProject.dto.contribuinte.DadosGenealogicosDTO;
 import com.rpps.rppsProject.dto.contribuinte.FiliacaoDTO;
+import com.rpps.rppsProject.model.contribuinte.Filiacao;
 import com.rpps.rppsProject.service.contribuinte.FiliacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +24,8 @@ public class FiliacaoController {
     }
 
     @PutMapping
-    public ResponseEntity<Long> atualizarFiliacao(@RequestBody FiliacaoDTO dto) {
-        Long id = filiacaoService.atualizarFiliacao(dto);
+    public ResponseEntity<Long> atualizarFiliacao(@RequestBody Filiacao filiacao) {
+        Long id = filiacaoService.atualizarFiliacao(filiacao);
         return ResponseEntity.ok(id);
     }
 
@@ -35,14 +36,14 @@ public class FiliacaoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<FiliacaoDTO> buscarPorId(@PathVariable Long id) {
-        FiliacaoDTO dto = filiacaoService.buscarPorId(id);
-        return ResponseEntity.ok(dto);
+    public ResponseEntity<Filiacao> buscarPorId(@PathVariable Long id) {
+        Filiacao filiacao = filiacaoService.buscarPorId(id);
+        return ResponseEntity.ok(filiacao);
     }
 
     @GetMapping
-    public ResponseEntity<List<FiliacaoDTO>> listarTodas() {
-        List<FiliacaoDTO> filiacoes = filiacaoService.listarTodas();
+    public ResponseEntity<List<Filiacao>> listarTodas() {
+        List<Filiacao> filiacoes = filiacaoService.listarTodas();
         return ResponseEntity.ok(filiacoes);
     }
 

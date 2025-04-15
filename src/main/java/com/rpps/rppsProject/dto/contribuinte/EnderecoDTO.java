@@ -4,8 +4,7 @@ import com.rpps.rppsProject.model.contribuinte.Endereco;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public record EnderecoDTO(Long idEndereco,
-                          @NotNull(message = "Id contribuinte não pode ser nulo")
+public record EnderecoDTO(@NotNull(message = "Id contribuinte não pode ser nulo")
                           Long idContribuinte,
                           @NotBlank(message = "Cep não pode ser branco")
                           String cep,
@@ -17,7 +16,6 @@ public record EnderecoDTO(Long idEndereco,
         Endereco endereco = new Endereco();
 
         endereco.setEstado(enderecoDTO.estado());
-        endereco.setIdEndereco(enderecoDTO.idEndereco());
         endereco.setCep(enderecoDTO.cep());
         endereco.setNumero(enderecoDTO.numeroMoradia());
         endereco.setIdContribuinte(enderecoDTO.idContribuinte());

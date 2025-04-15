@@ -8,18 +8,18 @@ public class Contribuicao {
     private Long idContribuinte;
     private LocalDate dataContribuicao;
     private BigDecimal valorContribuicao;
-    private java.time.LocalDate dataReferente;
+    private java.time.LocalDate dataReferencia;
     private Long idSalarioMinimo;
 
     public Contribuicao() {
     }
 
-    public Contribuicao(Long idContribuicao, Long idContribuinte, LocalDate dataContribuicao, BigDecimal valorContribuicao, java.time.LocalDate dataReferente, Long idSalarioMinimo) {
+    public Contribuicao(Long idContribuicao, Long idContribuinte, LocalDate dataContribuicao, BigDecimal valorContribuicao, java.time.LocalDate dataReferencia, Long idSalarioMinimo) {
         this.idContribuicao = idContribuicao;
         this.idContribuinte = idContribuinte;
         this.dataContribuicao = dataContribuicao;
         this.valorContribuicao = valorContribuicao;
-        this.dataReferente = dataReferente;
+        this.dataReferencia = dataReferencia;
         this.idSalarioMinimo = idSalarioMinimo;
     }
 
@@ -55,12 +55,12 @@ public class Contribuicao {
         this.valorContribuicao = valorContribuicao;
     }
 
-    public java.time.LocalDate getDataReferente() {
-        return dataReferente;
+    public java.time.LocalDate getDataReferencia() {
+        return dataReferencia;
     }
 
-    public void setDataReferente(java.time.LocalDate dataReferente) {
-        this.dataReferente = dataReferente;
+    public void setDataReferencia(java.time.LocalDate dataReferencia) {
+        this.dataReferencia = dataReferencia;
     }
 
     public Long getIdSalarioMinimo() {

@@ -1,6 +1,7 @@
 package com.rpps.rppsProject.controller.contribuinte;
 
 import com.rpps.rppsProject.dto.contribuinte.EnderecoDTO;
+import com.rpps.rppsProject.model.contribuinte.Endereco;
 import com.rpps.rppsProject.service.contribuinte.EnderecoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,8 @@ public class EnderecoController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> atualizar(@RequestBody @Valid EnderecoDTO dto) {
-        enderecoService.atualizarEndereco(dto);
+    public ResponseEntity<Void> atualizar(@RequestBody @Valid Endereco endereco) {
+        enderecoService.atualizarEndereco(endereco);
         return ResponseEntity.ok().build();
     }
 
@@ -35,13 +36,13 @@ public class EnderecoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EnderecoDTO> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<Endereco> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(enderecoService.buscarPorId(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<EnderecoDTO>> listarTodos() {
-        List<EnderecoDTO> enderecos = enderecoService.listarTodos();
+    public ResponseEntity<List<Endereco>> listarTodos() {
+        List<Endereco> enderecos = enderecoService.listarTodos();
         return ResponseEntity.ok(enderecos);
     }
 }

@@ -23,7 +23,7 @@ public class ContribuicaoRepository implements GenericRepository<Contribuicao, L
         contribuicao.setIdContribuinte(rs.getLong("idcontribuinte"));
         contribuicao.setDataContribuicao(rs.getDate("data_contribuicao").toLocalDate());
         contribuicao.setValorContribuicao(rs.getBigDecimal("valor_contribuicao"));
-        contribuicao.setDataReferente(rs.getDate("data_referencia").toLocalDate());
+        contribuicao.setDataReferencia(rs.getDate("data_referencia").toLocalDate());
         contribuicao.setIdSalarioMinimo(rs.getLong("idsalariominimo"));
         return contribuicao;
     };
@@ -64,7 +64,7 @@ public class ContribuicaoRepository implements GenericRepository<Contribuicao, L
                     entity.getIdContribuinte(),
                     entity.getDataContribuicao(),
                     entity.getValorContribuicao(),
-                    entity.getDataReferente(),
+                    entity.getDataReferencia(),
                     entity.getIdSalarioMinimo()
             );
         } catch (Exception e) {
@@ -85,7 +85,7 @@ public class ContribuicaoRepository implements GenericRepository<Contribuicao, L
             int rowsUpdated = template.update(sql,
                     entity.getIdContribuinte(),
                     entity.getDataContribuicao(),
-                    entity.getDataReferente(),
+                    entity.getDataReferencia(),
                     entity.getIdSalarioMinimo(),
                     entity.getValorContribuicao(),
                     entity.getIdContribuicao()

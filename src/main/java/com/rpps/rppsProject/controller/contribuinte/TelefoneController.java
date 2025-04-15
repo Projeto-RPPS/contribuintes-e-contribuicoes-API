@@ -1,6 +1,7 @@
 package com.rpps.rppsProject.controller.contribuinte;
 
 import com.rpps.rppsProject.dto.contribuinte.TelefoneDTO;
+import com.rpps.rppsProject.model.contribuinte.Telefone;
 import com.rpps.rppsProject.service.contribuinte.TelefoneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +23,8 @@ public class TelefoneController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> atualizarTelefone(@RequestBody TelefoneDTO dto) {
-        telefoneService.atualizarTelefone(dto);
+    public ResponseEntity<Void> atualizarTelefone(@RequestBody Telefone telefone) {
+        telefoneService.atualizarTelefone(telefone);
         return ResponseEntity.ok().build();
     }
 
@@ -34,14 +35,14 @@ public class TelefoneController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TelefoneDTO> buscarPorId(@PathVariable Long id) {
-        TelefoneDTO dto = telefoneService.buscarPorId(id);
-        return ResponseEntity.ok(dto);
+    public ResponseEntity<Telefone> buscarPorId(@PathVariable Long id) {
+        Telefone telefone = telefoneService.buscarPorId(id);
+        return ResponseEntity.ok(telefone);
     }
 
     @GetMapping
-    public ResponseEntity<List<TelefoneDTO>> listarTodos() {
-        List<TelefoneDTO> telefones = telefoneService.listarTodos();
+    public ResponseEntity<List<Telefone>> listarTodos() {
+        List<Telefone> telefones = telefoneService.listarTodos();
         return ResponseEntity.ok(telefones);
     }
 }

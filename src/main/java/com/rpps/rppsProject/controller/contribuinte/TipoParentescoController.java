@@ -1,6 +1,7 @@
 package com.rpps.rppsProject.controller.contribuinte;
 
 import com.rpps.rppsProject.dto.contribuinte.TipoParentescoDTO;
+import com.rpps.rppsProject.model.contribuinte.TipoParentesco;
 import com.rpps.rppsProject.service.contribuinte.TipoParentescoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class TipoParentescoController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> atualizar(@RequestBody @Valid TipoParentescoDTO tipoParentesco) {
+    public ResponseEntity<Void> atualizar(@RequestBody @Valid TipoParentesco tipoParentesco) {
         tipoParentescoService.atualizarTipoParentesco(tipoParentesco);
         return ResponseEntity.ok().build();
     }
@@ -35,13 +36,13 @@ public class TipoParentescoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TipoParentescoDTO> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<TipoParentesco> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(tipoParentescoService.buscarPorId(id));
 
     }
 
     @GetMapping
-    public ResponseEntity<List<TipoParentescoDTO>> listar () {
+    public ResponseEntity<List<TipoParentesco>> listar () {
         return ResponseEntity.ok(tipoParentescoService.listarTodos());
     }
 }
