@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -19,8 +21,8 @@ public class ContribuicaoService {
     @Autowired
     ContribuinteRepository contribuinteRepository;
 
-    private BigDecimal calcularValorContribuicao(BigDecimal percentualSalario, BigDecimal valorSalario){
-        return valorSalario.multiply(percentualSalario);
+    private BigDecimal calcularValorContribuicao(BigDecimal percentualSalario, BigDecimal valorSalarioReferente, BigDecimal valorSalarioVigente){
+        return valorSalarioReferente.multiply(percentualSalario).multiply(valorSalarioVigente.divide(valorSalarioReferente, 4, RoundingMode.HALF_UP));
     }
 
     @Transactional
@@ -35,7 +37,8 @@ public class ContribuicaoService {
                 Contribuicao contribuicao = new Contribuicao();
 
                 DadosFinanceirosDTO dados = contribuicaoRepository.buscarPercentualESalario(contribuicaoDTO.dataReferencia(), contribuicaoDTO.idContribuinte());
-                BigDecimal valorContribuicao = calcularValorContribuicao(dados.percentualContribuicao(), dados.valorSalario());
+                DadosFinanceirosDTO valorVigente = contribuicaoRepository.buscarPercentualESalario(LocalDate.now(), contribuicaoDTO.idContribuinte());
+                BigDecimal valorContribuicao = calcularValorContribuicao(dados.percentualContribuicao(), dados.valorSalario(), valorVigente.valorSalario());
 
                 contribuicao.setIdContribuinte(contribuicaoDTO.idContribuinte());
                 contribuicao.setDataReferencia(contribuicaoDTO.dataReferencia());
