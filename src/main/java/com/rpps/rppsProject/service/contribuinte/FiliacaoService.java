@@ -44,4 +44,8 @@ public class FiliacaoService {
     public List<DadosGenealogicosDTO> obterArvoreGenealogica(Long idContribuinte) {
         return filiacaoRepository.obterDadosArvoreGenealogica(idContribuinte);
     }
+
+    public List<DadosGenealogicosDTO> obterArvoreGenealogicaPorCpf(String cpf) {
+        return filiacaoRepository.obterDadosArvoreGenealogicaPorCpf(cpf);
+    }
 }

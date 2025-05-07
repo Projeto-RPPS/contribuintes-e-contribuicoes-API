@@ -85,11 +85,32 @@ public class ContribuinteRepository implements GenericRepository<Contribuinte, L
         }
     }
 
+    public void deleteByCpf(String cpf) {
+        try {
+
+            String sql = "UPDATE contribuinte SET ativo = ? WHERE cpf = ?;";
+            template.update(sql, false, cpf);
+
+        } catch (DataAccessException e) {
+            throw new RuntimeException("Erro no Delete de Contribuinte", e);
+        }
+    }
+
     @Override
     public Optional<Contribuinte> findById(Long id) {
         try {
             String sql = "SELECT * FROM contribuinte WHERE idcontribuinte = ?;";
             Contribuinte contribuinte = template.queryForObject(sql, rowMapper, id);
+            return Optional.ofNullable(contribuinte);
+        } catch (DataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
+    public Optional<Contribuinte> findByCpf(String cpf) {
+        try {
+            String sql = "SELECT * FROM contribuinte WHERE cpf = ?;";
+            Contribuinte contribuinte = template.queryForObject(sql, rowMapper, cpf);
             return Optional.ofNullable(contribuinte);
         } catch (DataAccessException e) {
             return Optional.empty();
@@ -115,4 +136,14 @@ public class ContribuinteRepository implements GenericRepository<Contribuinte, L
             throw new RuntimeException("Contribuinte não encontrado", e);
         }
     }
+
+    public Boolean isAtivoPorCpf(String cpf){
+        try {
+            String sql = "SELECT ativo FROM contribuinte where cpf = ?";
+            return Boolean.TRUE.equals(template.queryForObject(sql, Boolean.class, cpf));
+        } catch (DataAccessException e) {
+            throw new RuntimeException("Contribuinte não encontrado", e);
+        }
+    }
+
 }

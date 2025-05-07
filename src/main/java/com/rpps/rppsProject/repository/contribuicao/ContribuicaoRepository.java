@@ -1,5 +1,6 @@
 package com.rpps.rppsProject.repository.contribuicao;
 
+import com.rpps.rppsProject.dto.contribuicao.DadosFinanceirosCpfDTO;
 import com.rpps.rppsProject.model.contribuicao.Contribuicao;
 import com.rpps.rppsProject.dto.contribuicao.DadosFinanceirosDTO;
 import com.rpps.rppsProject.repository.GenericRepository;
@@ -44,6 +45,28 @@ public class ContribuicaoRepository implements GenericRepository<Contribuicao, L
                 LIMIT 1
             """;
             return template.queryForObject(sql, DadosFinanceirosDTO.rowMapper, dataReferencia, dataReferencia, idContribuinte);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao buscar percentual e salario minimo", e);
+        }
+    }
+
+    public DadosFinanceirosCpfDTO buscarPercentualESalarioPorCpf(LocalDate dataReferencia, String cpf) {
+        try {
+            String sql = """
+                SELECT c.percentual_contribuicao, 
+                       h.idsalariominimo, 
+                       h.valor AS salario_minimo,
+                       co.idcontribuinte
+                FROM contribuinte co
+                JOIN categoria c ON co.idcategoria = c.idcategoria
+                JOIN historicosalariominimo h 
+                    ON h.data_inicio <= ?  
+                    AND (h.data_fim IS NULL OR h.data_fim >= ?)
+                WHERE co.cpf = ?
+                ORDER BY h.data_inicio DESC
+                LIMIT 1
+            """;
+            return template.queryForObject(sql, DadosFinanceirosCpfDTO.rowMapper, dataReferencia, dataReferencia, cpf);
         } catch (Exception e) {
             throw new RuntimeException("Erro ao buscar percentual e salario minimo", e);
         }
@@ -152,6 +175,27 @@ public class ContribuicaoRepository implements GenericRepository<Contribuicao, L
 
         Integer count = template.queryForObject(sql, Integer.class,
                 idContribuinte,
+                dataReferencia.getYear(),
+                dataReferencia.getMonthValue()
+        );
+
+        Boolean existe = count != null && count > 0;
+
+        return existe;
+    }
+
+    public boolean existeContribuicaoNoMesmoMesPorCPF(String cpf, LocalDate dataReferencia) {
+        String sql = """
+        SELECT COUNT(*) 
+        FROM contribuicao co
+        JOIN contribuinte c ON c.idcontribuinte = co.idcontribuinte
+        WHERE c.cpf = ? 
+        AND EXTRACT(YEAR FROM data_referencia) = ?
+        AND EXTRACT(MONTH FROM data_referencia) = ?
+    """;
+
+        Integer count = template.queryForObject(sql, Integer.class,
+                cpf,
                 dataReferencia.getYear(),
                 dataReferencia.getMonthValue()
         );

@@ -92,4 +92,16 @@ public class FiliacaoRepository implements GenericRepository<Filiacao, Long> {
 
         return template.query(sql, DadosGenealogicosDTO.rowMapper, idContribuinte);
     }
+
+    public List<DadosGenealogicosDTO> obterDadosArvoreGenealogicaPorCpf(String cpf) {
+        String sql = """
+        SELECT p.nomeparente, t.descricao FROM filiacao f
+        JOIN tipoparentesco t ON f.idtipoparentesco = t.idtipoparentesco
+        JOIN parente p ON f.idparente = p.idparente
+        JOIN contribuinte c ON f.idcontribuinte = c.idcontribuinte
+        WHERE c.cpf = ?
+        """;
+
+        return template.query(sql, DadosGenealogicosDTO.rowMapper, cpf);
+    }
 }

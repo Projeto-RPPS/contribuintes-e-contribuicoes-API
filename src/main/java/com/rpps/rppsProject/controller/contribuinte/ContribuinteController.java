@@ -29,6 +29,12 @@ public class ContribuinteController {
         return ResponseEntity.ok(contribuinte);
     }
 
+    @GetMapping("/porCpf/{cpf}")
+    public ResponseEntity<Contribuinte> buscarPorCpf(@PathVariable String cpf) {
+        Contribuinte contribuinte = contribuinteService.buscarContribuintePorCpf(cpf);
+        return ResponseEntity.ok(contribuinte);
+    }
+
     @GetMapping
     public ResponseEntity<List<Contribuinte>> listarTodos() {
         List<Contribuinte> lista = contribuinteService.listarContribuintes();
@@ -38,6 +44,12 @@ public class ContribuinteController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> inativar(@PathVariable Long id) {
         contribuinteService.inativarContribuinte(id);
+        return ResponseEntity.ok("Contribuinte inativado com sucesso.");
+    }
+
+    @DeleteMapping("/porCpf/{cpf}")
+    public ResponseEntity<String> inativarPorCpf(@PathVariable String cpf) {
+        contribuinteService.inativarContribuintePorCpf(cpf);
         return ResponseEntity.ok("Contribuinte inativado com sucesso.");
     }
 }

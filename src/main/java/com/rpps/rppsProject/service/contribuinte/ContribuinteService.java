@@ -44,6 +44,7 @@ public class ContribuinteService {
         Contribuinte contribuinte = ContribuinteDTO.mapearParaContribuinte(dadosCadastroDTO.contribuinte());
         Long idContribuinte = contribuinteRepository.insert(contribuinte);
 
+
         List<Email> listaEmail = dadosCadastroDTO.listaEmails().stream()
                 .map(emailDTO -> EmailDTO.mapearParaEmail(emailDTO))
                 .toList();
@@ -78,12 +79,21 @@ public class ContribuinteService {
                 .orElseThrow(() -> new RuntimeException("Contribuinte não encontrado com ID: " + id));
     }
 
+    public Contribuinte buscarContribuintePorCpf(String cpf) {
+        return contribuinteRepository.findByCpf(cpf)
+                .orElseThrow(() -> new RuntimeException("Contribuinte não encontrado com ID: " + cpf));
+    }
+
     public List<Contribuinte> listarContribuintes() {
         return contribuinteRepository.findAll();
     }
 
     public void inativarContribuinte(Long id) {
         contribuinteRepository.delete(id);
+    }
+
+    public void inativarContribuintePorCpf(String cpf) {
+        contribuinteRepository.deleteByCpf(cpf);
     }
 
 }

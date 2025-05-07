@@ -1,5 +1,7 @@
 package com.rpps.rppsProject.service.contribuicao;
 
+import com.rpps.rppsProject.dto.contribuicao.ContribuicaoCpfDTO;
+import com.rpps.rppsProject.dto.contribuicao.DadosFinanceirosCpfDTO;
 import com.rpps.rppsProject.model.contribuicao.Contribuicao;
 import com.rpps.rppsProject.repository.contribuicao.ContribuicaoRepository;
 import com.rpps.rppsProject.dto.contribuicao.ContribuicaoDTO;
@@ -41,6 +43,33 @@ public class ContribuicaoService {
                 BigDecimal valorContribuicao = calcularValorContribuicao(dados.percentualContribuicao(), dados.valorSalario(), valorVigente.valorSalario());
 
                 contribuicao.setIdContribuinte(contribuicaoDTO.idContribuinte());
+                contribuicao.setDataReferencia(contribuicaoDTO.dataReferencia());
+                contribuicao.setIdSalarioMinimo(dados.idSalario());
+                contribuicao.setValorContribuicao(valorContribuicao);
+
+                contribuicaoRepository.insert(contribuicao);
+            } else {
+                throw new IllegalArgumentException("Contribuinte não está ativo, portanto não pode fazer contribuição");
+            }
+        }
+    }
+
+    @Transactional
+    public void fazerContribuicaoPorCpf(ContribuicaoCpfDTO contribuicaoDTO) {
+
+        Boolean jaExiste = contribuicaoRepository.existeContribuicaoNoMesmoMesPorCPF(contribuicaoDTO.cpf(), contribuicaoDTO.dataReferencia());
+
+        if (jaExiste) {
+            throw new IllegalArgumentException("Já existe uma contribuição para este contribuinte neste mês.");
+        } else {
+            if (contribuinteRepository.isAtivoPorCpf(contribuicaoDTO.cpf())) {
+                Contribuicao contribuicao = new Contribuicao();
+
+                DadosFinanceirosCpfDTO dados = contribuicaoRepository.buscarPercentualESalarioPorCpf(contribuicaoDTO.dataReferencia(), contribuicaoDTO.cpf());
+                DadosFinanceirosCpfDTO valorVigente = contribuicaoRepository.buscarPercentualESalarioPorCpf(LocalDate.now(), contribuicaoDTO.cpf());
+                BigDecimal valorContribuicao = calcularValorContribuicao(dados.percentualContribuicao(), dados.valorSalario(), valorVigente.valorSalario());
+
+                contribuicao.setIdContribuinte(dados.idContribuinte());
                 contribuicao.setDataReferencia(contribuicaoDTO.dataReferencia());
                 contribuicao.setIdSalarioMinimo(dados.idSalario());
                 contribuicao.setValorContribuicao(valorContribuicao);

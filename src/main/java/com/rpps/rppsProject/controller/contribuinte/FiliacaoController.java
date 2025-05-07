@@ -52,4 +52,10 @@ public class FiliacaoController {
         List<DadosGenealogicosDTO> arvore = filiacaoService.obterArvoreGenealogica(idContribuinte);
         return ResponseEntity.ok(arvore);
     }
+
+    @GetMapping("/arvore/porCpf/{cpf}")
+    public ResponseEntity<List<DadosGenealogicosDTO>> obterArvoreGenealogicaPorCpf(@PathVariable String cpf) {
+        List<DadosGenealogicosDTO> arvore = filiacaoService.obterArvoreGenealogicaPorCpf(cpf);
+        return ResponseEntity.ok(arvore);
+    }
 }

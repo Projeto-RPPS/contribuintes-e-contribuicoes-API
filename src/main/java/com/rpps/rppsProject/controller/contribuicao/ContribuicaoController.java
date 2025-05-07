@@ -1,5 +1,6 @@
 package com.rpps.rppsProject.controller.contribuicao;
 
+import com.rpps.rppsProject.dto.contribuicao.ContribuicaoCpfDTO;
 import com.rpps.rppsProject.dto.contribuicao.ContribuicaoDTO;
 import com.rpps.rppsProject.model.contribuicao.Contribuicao;
 import com.rpps.rppsProject.service.contribuicao.ContribuicaoService;
@@ -19,6 +20,12 @@ public class ContribuicaoController {
     @PostMapping
     public ResponseEntity<String> realizarContribuicao(@RequestBody ContribuicaoDTO dto) {
         contribuicaoService.fazerContribuicao(dto);
+        return ResponseEntity.ok("Contribuição realizada com sucesso.");
+    }
+
+    @PostMapping("/porCpf")
+    public ResponseEntity<String> realizarContribuicaoPorCpf(@RequestBody ContribuicaoCpfDTO dto) {
+        contribuicaoService.fazerContribuicaoPorCpf(dto);
         return ResponseEntity.ok("Contribuição realizada com sucesso.");
     }
 
